@@ -25,7 +25,7 @@ public class AuthenticationController {
 	AdministratorRepository administratorRepository;
 	
 	@PostMapping("auth")
-	public Auth log(@RequestParam("user") String username, 
+	public Auth log(@RequestParam("username") String username, 
 					@RequestParam("password") String pwd) {
 		
 		Auth auth = new Auth();
@@ -60,6 +60,6 @@ public class AuthenticationController {
 				.signWith(SignatureAlgorithm.HS512,
 						secretKey.getBytes()).compact();
 
-		return "Bearer " + token;
+		return "Token " + token;
 	}
 }
