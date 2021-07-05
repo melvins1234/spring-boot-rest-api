@@ -25,7 +25,7 @@ public class AuthenticationController {
 	AdministratorRepository administratorRepository;
 	
 	@PostMapping("auth")
-	public Auth log(@RequestParam("user") String username, 
+	public Auth log(@RequestParam("username") String username, 
 					@RequestParam("password") String pwd) {
 		
 		Auth auth = new Auth();
@@ -33,8 +33,8 @@ public class AuthenticationController {
 		administratorRepository.findAll().forEach(e -> {
 			if(e.getUsername().equals(username) && e.getPassword().equals(pwd)) {
 				String token = getJWTToken(username);
-				auth.setUser(username);
-				auth.setPwd(pwd);
+				auth.setUsername(username);
+				auth.setPassword(pwd);
 				auth.setToken(token);
 			}
 		});
@@ -60,6 +60,6 @@ public class AuthenticationController {
 				.signWith(SignatureAlgorithm.HS512,
 						secretKey.getBytes()).compact();
 
-		return "Bearer " + token;
+		return "Token " + token;
 	}
 }
