@@ -2,15 +2,20 @@ package com.rakutech.api.dto;
 
 public class Auth {
 	
-	private String user;
-	private String pwd;
+	private String username;
+	private String password;
 	private String token;
-	
-	public String getUser() {
-		return user;
+	public String getUsername() {
+		return username;
 	}
-	public void setUser(String user) {
-		this.user = user;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public String getToken() {
 		return token;
@@ -18,12 +23,6 @@ public class Auth {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	public String getPwd() {
-		return pwd;
-	}
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
-	
+
 	
 }

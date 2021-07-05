@@ -33,8 +33,8 @@ public class AuthenticationController {
 		administratorRepository.findAll().forEach(e -> {
 			if(e.getUsername().equals(username) && e.getPassword().equals(pwd)) {
 				String token = getJWTToken(username);
-				auth.setUser(username);
-				auth.setPwd(pwd);
+				auth.setUsername(username);
+				auth.setPassword(pwd);
 				auth.setToken(token);
 			}
 		});
