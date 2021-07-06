@@ -50,7 +50,7 @@ export const Card = (props) => {
         <div className="bottom1__card__inner">
           <div className="bottom1__card__front">
             <img
-              src={`${process.env.PUBLIC_URL}/images/${props.image}`}
+              src={`${props.image}`}
               alt={props.product}
             />
           </div>

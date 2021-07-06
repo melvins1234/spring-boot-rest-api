@@ -19,38 +19,50 @@ import { Cart } from "./components/Cart/Cart";
 import { Payment } from "./components/Payment/Payment";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { token } from "./store/action/token";
+import { loadProducts } from "./store/action/loadProducts";
 
 const App = () => {
   const dispatch = useDispatch();
-
 
   const isModalClose = () =>
     !sessionStorage.getItem("isModalClose") ? true : false;
 
   useEffect(() => {
-    
     let details = {
-        username: "admin",
-        password: "root",
-      };
-  
-      let formBody = Object.keys(details)
-        .map((e) => `${encodeURIComponent(e)}=${encodeURIComponent(details[e])}`)
-        .join("&");
-  
-      fetch("/auth", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-          "Access-Control-Allow-Origin": "*",
-        },
-        body: formBody,
+      username: "admin",
+      password: "root",
+    };
+
+    let formBody = Object.keys(details)
+      .map((e) => `${encodeURIComponent(e)}=${encodeURIComponent(details[e])}`)
+      .join("&");
+
+    fetch("/auth", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: formBody,
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        dispatch(token(json.token));
+        fetch("/products", {
+          method: "GET",
+          headers: new Headers({
+            Authorization: json.token,
+            "Content-Type": "application/x-www-form-urlencoded",
+          }),
+        })
+          .then((res) => res.json())
+          .then((json) => {
+            dispatch(loadProducts(json));
+          });
       })
-        .then((res) => res.json())
-        .then((json) => sessionStorage.setItem('token', json.token));
-
-
-     
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   let [showModal, setShowModal] = useState(isModalClose());
