@@ -1,33 +1,35 @@
-import {useEffect} from 'react'
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../../../store/action/addUser";
 import { Input, Button } from "../../InputField/InputField";
 import { EmailFieldErrorMessage } from "./EmailFieldErrorMessage";
 
-const SignUpForm = ({setSuccessSignUp}) => {
+const SignUpForm = ({ setSuccessSignUp }) => {
   let dispatch = useDispatch();
+  const apiToken = useSelector((state) => state.token);
 
-  
+  console.log(apiToken);
 
   const SignUpFunction = async (e) => {
-    // e.preventDefault();
-    // let {data} = Object.fromEntries(new FormData(e.target).entries());
-
-    // await fetch('/users',{
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(data)
-    // });
+    e.preventDefault();
+    let data = Object.fromEntries(new FormData(e.target).entries());
+    console.log(JSON.stringify(data));
+    await fetch('/users',{
+      method: 'POST',
+      headers: {
+        Authorization: apiToken,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
   };
 
   return (
     <section className="sign-up__form">
       <form id="sign-up-submit" onSubmit={SignUpFunction}>
         <Input
-          field={{ _uid: "fullname", label: "Full Name" }}
+          field={{ _uid: "name", label: "Name" }}
           type="text"
           required="required"
         />

@@ -16,7 +16,7 @@ const Store = () => {
             product={e.product}
             description={e.description}
             price={e.price}
-            discountedPrice={e.discountedPrice}
+            discountedPrice={e.discount}
             stars={e.stars}
             hotProduct={e.hotProduct}
             quantity={e.quantity}

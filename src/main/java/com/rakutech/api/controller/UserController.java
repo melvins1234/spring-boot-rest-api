@@ -42,6 +42,7 @@ public class UserController {
     @PostMapping("")
     ResponseEntity<User> createUser(@RequestBody User user) throws URISyntaxException {
         User result = userRepository.save(user);
+        System.out.println(result);
         return ResponseEntity.created(new URI("/users/group/" + result.getId()))
                 .body(result);
     }

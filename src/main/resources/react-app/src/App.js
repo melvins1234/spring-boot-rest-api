@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import Header from "./components/Header/Header";
 import { Product } from "./components/Product/Product";

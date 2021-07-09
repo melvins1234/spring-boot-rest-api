@@ -52,7 +52,7 @@ const ProductContentCard = (props) => {
         <span>HOT</span>
         <Route path="/store">
           <img
-            src={`/images/${props.image}`}
+            src={`${props.image}`}
             // src={props.image}
             alt={props.product}
           />
