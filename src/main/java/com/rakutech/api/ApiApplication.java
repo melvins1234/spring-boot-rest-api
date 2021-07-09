@@ -30,6 +30,7 @@ public class ApiApplication {
 				.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/auth").permitAll()
+				.antMatchers(HttpMethod.GET, "/image").permitAll()
 				.antMatchers("/resources/**","/images/**").permitAll()
 				.anyRequest().authenticated();
 		}
