@@ -11,4 +11,8 @@ import com.rakutech.api.model.User;
 public interface UserRepository extends JpaRepositoryImplementation<User, Long> {
 	@Query("SELECT u from User u WHERE u.email = :email")
 	Optional<User> findByEmailAddress(@Param("email") String email);
+	
+	@Query("SELECT u from User u WHERE u.email = :email AND u.password = :password")
+	Optional<User> findByEmailAddressPass(@Param("email") String email, 
+			@Param("password") String password);
 }
