@@ -32,12 +32,25 @@ public class UserController {
 		return userRepository.findAll();
 	}
 	
-	@GetMapping("/{id}")
-	ResponseEntity<?> getUser(@PathVariable Long id){
-		Optional<User> user = userRepository.findById(id);
+//	@GetMapping("/{id}")
+//	ResponseEntity<?> getUserById(@PathVariable Long id){
+//		Optional<User> user = userRepository.findById(id);
+//		return user.map(response -> ResponseEntity.ok().body(response))
+//                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+//	}
+	
+	@GetMapping("/{value}")
+	ResponseEntity<?> getUserByEmail(@PathVariable String value) throws NumberFormatException{
+		Optional<User> user;
+		if(value.contains("@")) 
+			user= userRepository.findByEmailAddress(value);
+		else
+			user = userRepository.findById(Long.parseLong(value));
+		
 		return user.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
+	
 	
     @PostMapping("")
     ResponseEntity<User> createUser(@RequestBody User user) throws URISyntaxException {

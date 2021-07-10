@@ -1,28 +1,41 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "../../../store/action/addUser";
+import { useSelector } from "react-redux";
 import { Input, Button } from "../../InputField/InputField";
 import { EmailFieldErrorMessage } from "./EmailFieldErrorMessage";
 
 const SignUpForm = ({ setSuccessSignUp }) => {
-  let dispatch = useDispatch();
   const apiToken = useSelector((state) => state.token);
-
-  console.log(apiToken);
 
   const SignUpFunction = async (e) => {
     e.preventDefault();
+
     let data = Object.fromEntries(new FormData(e.target).entries());
-    console.log(JSON.stringify(data));
-    await fetch('/users',{
-      method: 'POST',
+    console.log();
+    await fetch(`/users/${data.email}`, {
+      method: "GET",
       headers: {
         Authorization: apiToken,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
-    });
+    })
+      .then((res) => {
+        if (!res.ok) {
+          fetch("/users", {
+            method: "POST",
+            headers: {
+              Authorization: apiToken,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then(setSuccessSignUp(true))
+            .then(e.target.reset());
+        } else EmailFieldErrorMessage(e, "Email is already in use.");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
