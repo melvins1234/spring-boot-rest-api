@@ -1,33 +1,48 @@
-import {useEffect} from 'react'
-import { useDispatch } from "react-redux";
-import { addUser } from "../../../store/action/addUser";
+import { useSelector } from "react-redux";
 import { Input, Button } from "../../InputField/InputField";
 import { EmailFieldErrorMessage } from "./EmailFieldErrorMessage";
 
-const SignUpForm = ({setSuccessSignUp}) => {
-  let dispatch = useDispatch();
-
-  
+const SignUpForm = ({ setSuccessSignUp }) => {
+  const apiToken = useSelector((state) => state.token);
 
   const SignUpFunction = async (e) => {
-    // e.preventDefault();
-    // let {data} = Object.fromEntries(new FormData(e.target).entries());
+    e.preventDefault();
 
-    // await fetch('/users',{
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(data)
-    // });
+    let data = Object.fromEntries(new FormData(e.target).entries());
+    console.log();
+    await fetch(`/users/${data.email}`, {
+      method: "GET",
+      headers: {
+        Authorization: apiToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          fetch("/users", {
+            method: "POST",
+            headers: {
+              Authorization: apiToken,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then(setSuccessSignUp(true))
+            .then(e.target.reset());
+        } else EmailFieldErrorMessage(e, "Email is already in use.");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
     <section className="sign-up__form">
       <form id="sign-up-submit" onSubmit={SignUpFunction}>
         <Input
-          field={{ _uid: "fullname", label: "Full Name" }}
+          field={{ _uid: "name", label: "Name" }}
           type="text"
           required="required"
         />
