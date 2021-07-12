@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rakutech.api.model.User;
@@ -32,16 +33,39 @@ public class UserController {
 		return userRepository.findAll();
 	}
 	
-	@GetMapping("/{id}")
-	ResponseEntity<?> getUser(@PathVariable Long id){
-		Optional<User> user = userRepository.findById(id);
+//	@GetMapping("/{id}")
+//	ResponseEntity<?> getUserById(@PathVariable Long id){
+//		Optional<User> user = userRepository.findById(id);
+//		return user.map(response -> ResponseEntity.ok().body(response))
+//                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+//	}
+	
+	@GetMapping("/search")
+	ResponseEntity<?> getUserById(@RequestParam("email") String email, 
+								@RequestParam("password") String password){
+		Optional<User> user = userRepository.findByEmailAddressPass(email, password);
+		return user.map(response -> ResponseEntity.ok().body(response))
+	            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
+	
+	
+	@GetMapping("/{value}")
+	ResponseEntity<?> getUserByEmail(@PathVariable String value) throws NumberFormatException{
+		Optional<User> user;
+		if(value.contains("@")) 
+			user= userRepository.findByEmailAddress(value);
+		else
+			user = userRepository.findById(Long.parseLong(value));
+		
 		return user.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 	
+	
     @PostMapping("")
     ResponseEntity<User> createUser(@RequestBody User user) throws URISyntaxException {
         User result = userRepository.save(user);
+        System.out.println(result);
         return ResponseEntity.created(new URI("/users/group/" + result.getId()))
                 .body(result);
     }

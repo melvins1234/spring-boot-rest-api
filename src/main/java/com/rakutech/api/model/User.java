@@ -1,5 +1,6 @@
 package com.rakutech.api.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,9 +14,13 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private String name;
+	@Column(unique=true)
 	private String email;
 	private String password;
-	private String fullname;
+	private String phone;
+	private String address;
+	private String city;
 	
 	public Long getId() {
 		return id;
@@ -35,16 +40,36 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getFullname() {
-		return fullname;
+	public String getName() {
+		return name;
 	}
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
 	}
 	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullname=" + fullname + "]";
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", phone=" + phone
+				+ ", address=" + address + ", city=" + city + "]";
 	}
+	
 	
 }
