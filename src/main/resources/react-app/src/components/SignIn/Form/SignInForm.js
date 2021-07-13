@@ -4,7 +4,6 @@ import { Input, Button } from "../../InputField/InputField";
 import { EmailFieldErrorMessage } from "./EmailFieldErrorMessage";
 
 const SignInForm = () => {
-
   const dispatch = useDispatch();
   const apiToken = useSelector((state) => state.token);
   const onSubmit = async (e) => {
@@ -20,14 +19,11 @@ const SignInForm = () => {
         "Content-Type": "application/json",
       }),
     })
-      .then((res) => {
-        if (res.ok) dispatch(isLoggedIn(res.json()));
-        else {
-          EmailFieldErrorMessage(e, `This email address doesn't exist.`);
-          throw new Error(res.status);
-        }
+      .then((res) => res.json())
+      .then((json) => {
+        dispatch(isLoggedIn(json));
       })
-      .catch((error) => console.log(error));
+      .catch((err) => {EmailFieldErrorMessage(e, `This email address doesn't exist.`)});
   };
 
   return (
