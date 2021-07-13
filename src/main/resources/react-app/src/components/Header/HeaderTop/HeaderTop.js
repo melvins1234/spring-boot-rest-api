@@ -41,7 +41,7 @@ export const HeaderTop = () => {
               onMouseLeave={() => setShowPopover(false)}
               className="header__top--account__container"
             >
-              {isLoggedIn.userLoggedIn.fullname}
+              {isLoggedIn.userLoggedIn.name}
               {showPopover ? <Popover /> : ""}
             </section>
           ) : (
