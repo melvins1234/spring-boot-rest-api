@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rakutech.api.dto.Auth;
 import com.rakutech.api.model.Administrator;
 import com.rakutech.api.repository.AdministratorRepository;
+import com.rakutech.api.repository.UserRepository;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -22,18 +23,18 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class AuthenticationController {
 	
 	@Autowired
-	AdministratorRepository administratorRepository;
+	UserRepository userRepository;
 	
 	@PostMapping("auth")
-	public Auth log(@RequestParam("username") String username, 
+	public Auth log(@RequestParam("email") String email, 
 					@RequestParam("password") String pwd) {
 		
 		Auth auth = new Auth();
 		
-		administratorRepository.findAll().forEach(e -> {
-			if(e.getUsername().equals(username) && e.getPassword().equals(pwd)) {
-				String token = getJWTToken(username);
-				auth.setUsername(username);
+		userRepository.findAll().forEach(e -> {
+			if(e.getEmail().equals(email) && e.getPassword().equals(pwd)) {
+				String token = getJWTToken(email);
+				auth.setUsername(email);
 				auth.setPassword(pwd);
 				auth.setToken(token);
 			}
