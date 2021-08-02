@@ -70,12 +70,6 @@
 		    <version>4.0.1</version>
 		    <scope>provided</scope>
 		</dependency>
-	    <!-- marked the embedded servlet container as provided -->
-	    <dependency>
-	        <groupId>org.springframework.boot</groupId>
-	        <artifactId>spring-boot-starter-tomcat</artifactId>
-	        <scope>provided</scope>
-	    </dependency>
 
 		<!-- API, java.xml.bind module -->
 		<dependency>

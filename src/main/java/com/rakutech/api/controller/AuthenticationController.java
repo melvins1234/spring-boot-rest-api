@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rakutech.api.dto.Auth;
 import com.rakutech.api.model.Administrator;
+import com.rakutech.api.model.User;
 import com.rakutech.api.repository.AdministratorRepository;
 import com.rakutech.api.repository.UserRepository;
 
@@ -26,7 +27,7 @@ public class AuthenticationController {
 	UserRepository userRepository;
 	
 	@PostMapping("auth")
-	public Auth log(@RequestParam("email") String email, 
+	public User log(@RequestParam("email") String email, 
 					@RequestParam("password") String pwd) {
 		
 		Auth auth = new Auth();
