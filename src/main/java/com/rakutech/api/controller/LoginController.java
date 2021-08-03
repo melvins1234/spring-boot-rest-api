@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController  
-public class HomeController {
+@Controller  
+public class LoginController {
 
-	@RequestMapping("/")
+	@RequestMapping("/login")
 	public String homView() {
-		return "Hello World";
+		return "login.html";
 	}
 }
