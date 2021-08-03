@@ -34,13 +34,15 @@ public class ApiApplication extends SpringBootServletInitializer {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.csrf().disable()
+				.formLogin()
+				.loginPage("/login").permitAll()
+				.and()
 				.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/auth").permitAll()
-				.antMatchers("/products").permitAll()
-				.antMatchers(HttpMethod.GET, "/image").permitAll()
-				.antMatchers("/resources/**","/images/**").permitAll()
+				.antMatchers("/products","/resources/**","/images/**", "/image").permitAll()
 				.anyRequest().authenticated();
+			
 		}
 	}
 	

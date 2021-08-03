@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rakutech.api.dto.Auth;
+import com.rakutech.api.dto.UserDTO;
 import com.rakutech.api.model.Administrator;
 import com.rakutech.api.model.User;
 import com.rakutech.api.repository.AdministratorRepository;
@@ -27,21 +28,26 @@ public class AuthenticationController {
 	UserRepository userRepository;
 	
 	@PostMapping("auth")
-	public User log(@RequestParam("email") String email, 
+	public UserDTO log(@RequestParam("email") String email, 
 					@RequestParam("password") String pwd) {
 		
-		Auth auth = new Auth();
+		UserDTO userDTO = new UserDTO();
 		
 		userRepository.findAll().forEach(e -> {
 			if(e.getEmail().equals(email) && e.getPassword().equals(pwd)) {
 				String token = getJWTToken(email);
-				auth.setUsername(email);
-				auth.setPassword(pwd);
-				auth.setToken(token);
+				userDTO.setId(e.getId());
+				userDTO.setName(e.getName());
+				userDTO.setEmail(email);
+				userDTO.setPassword(pwd);
+				userDTO.setPhone(e.getPhone());
+				userDTO.setAddress(e.getAddress());
+				userDTO.setCity(e.getCity());
+				userDTO.setToken(token);
 			}
 		});
 		
-		return auth;
+		return userDTO;
 	}
 	
 	private String getJWTToken(String username) {
